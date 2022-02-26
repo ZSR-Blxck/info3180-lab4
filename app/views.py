@@ -9,6 +9,7 @@ from app import app
 from .forms import UploadForm
 from flask import render_template, request, redirect, url_for, flash, session, abort
 from werkzeug.utils import secure_filename
+from flask.helpers import send_from_directory
 
 
 ###
@@ -76,7 +77,7 @@ def files():
         abort(401)
 
     images = get_uploaded_images()
-    return render_template('files.html', all_=images)
+    return render_template('files.html', all_images=images)
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
