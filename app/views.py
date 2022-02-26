@@ -57,7 +57,7 @@ def upload():
 def get_uploaded_images():
     
     file_list = list()
-    rootdir = os.getcwd()
+    rootdir = os.path.join(app.config['UPLOAD_FOLDER'])
 
     for subdir, dirs, files in os.walk(rootdir):
         for file in files:
@@ -67,7 +67,7 @@ def get_uploaded_images():
 @app.route('/uploads/<filename>')
 def get_image(filename):
     rootdir = os.getcwd()
-    return  send_from_directory(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER']), filename)
+    return  send_from_directory(os.path.join(rootdir, app.config['UPLOAD_FOLDER']), filename)
 
 @app.route('/files')
 def files():
@@ -75,8 +75,8 @@ def files():
     if not session.get('logged_in'):
         abort(401)
 
-    photos = get_uploaded_images()
-    return render_template('files.html', all_photos=photos)
+    images = get_uploaded_images()
+    return render_template('files.html', all_=images)
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
